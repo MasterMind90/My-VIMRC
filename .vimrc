@@ -2,9 +2,6 @@
 " Maintainer: 
 "       Amjad Alhouseini
 "
-" Version: 
-"       5.0 - 29/05/12 15:43:36
-"
 "
 " Awesome_version:
 "       Get this config, nice color schemes and lots of plugins!
@@ -38,13 +35,18 @@
 " Sets how many lines of history VIM has to remember
 set history=500
 
-" Pathogen Package Manager
-execute pathogen#infect()
+" Vundle : Vim Plugin Manager
 
-" Run time Path
-" set runtimepath^=~/.vim/bundle/ctrlp.vim
+set nocompatible              " be iMproved, required
 
-" Enable filetype plugins
+
+so ~/.vim/plugins.vim
+
+
+
+
+
+
 filetype plugin on
 filetype indent on
 
@@ -61,7 +63,7 @@ nmap <leader>w :w!<cr>
 
 " :W sudo saves the file 
 " (useful for handling the permission-denied error)
-command W w !sudo tee % > /dev/null
+"command W w !sudo tee % > /dev/null
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -145,7 +147,7 @@ set foldcolumn=1
 syntax enable 
 
 try
-    colorscheme desert
+    colorscheme atom-dark-256
 catch
 endtry
 
@@ -157,7 +159,14 @@ if has("gui_running")
     set guioptions-=e
     set t_Co=256
     set guitablabel=%M\ %t
+    set guifont=Monospace\ 22
 endif
+
+" Change Selection color 
+hi Visual  guifg=Black guibg=#FFFF00 gui=none
+
+au InsertLeave * hi Cursor guibg=#F88017
+au InsertEnter * hi Cursor guibg=red
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
@@ -204,7 +213,7 @@ set showcmd
 set number
 set relativenumber
 
-autocmd VimEnter * NERDTree
+"autocmd VimEnter * NERDTree
 autocmd VimEnter * wincmd p
 
 """"""""""""""""""""""""""""""
@@ -376,12 +385,85 @@ map <leader>x :e ~/buffer.md<cr>
 map <leader>pp :setlocal paste!<cr>
 
 " My Own maps:
+
 map <F9> :! g++ -std=c++11 -DDEBUG %
+map <F7> :! g++ -std=c++11 %
 map <F8> :! ./a.out < in.txt > out.txt 
 noremap <C-Left> :tabprevious<CR>
 noremap <C-Right> :tabnext<CR>
 
 
+nmap <Leader>ev :tabe $MYVIMRC<cr>
+nmap <Leader><space> :noh<cr>
+nmap <c-cr> i<cr><Esc>
+
+nmap <C-J> <C-W><C-J>
+nmap <C-K> <C-W><C-K>
+nmap <C-L> <C-W><C-L>
+nmap <C-H> <C-W><C-H>
+
+"nmap <C-v> :vertical resize +5<cr> 
+
+
+set autowriteall "Auto write when switching buffer.
+set complete=.,w
+
+
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_match_window = 'top,order:ttb,min:1,max:10,results:10'
+
+
+
+" F11 to change to full screen mode 
+map <silent> <F11>
+\    :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")<CR>
+
+vmap <Leader>ee :s/^/\/\//<cr>
+
+
+
+" Greplace.vim
+
+set grepprg=ag
+
+let g:grep_cmd_opts = '--line-numbers --noheading'
+
+
+
+
+let g:mta_filetypes = {
+    \ 'html' : 1,
+    \ 'xhtml' : 1,
+    \ 'xml' : 1,
+    \ 'jinja' : 1,
+    \ 'php' : 1,
+    \}
+let g:mta_use_matchparen_group = 0
+let g:mta_set_default_matchtag_color = 0
+highlight MatchTag ctermfg=black ctermbg=lightgreen guifg=black guibg=lightgreen
+nnoremap <leader>% :MtaJumpToOtherTag<cr>
+
+
+
+
+
+
+
+
+
+
+" --- --- --- Laravel Specific --- --- --- " 
+nmap <Leader>lr :e routes.php<cr><cr>
+nmap <Leader>lm :!php artisan make:
+nmap <Leader><Leader>c :CtrlP<cr>controllers/
+nmap <Leader><Leader>m :CtrlP<cr>models/
+nmap <Leader><Leader>v :CtrlP<cr>views/
+
+
+
+" Edit Snippets 
+
+nmap <Leader>es :tabe ~/.vim/snippets/
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
